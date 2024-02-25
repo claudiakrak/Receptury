@@ -8,48 +8,67 @@ Prośba o podanie objętości opakowania: skrypt prosi o podanie objętości opa
 Otworzenie i przetworzenie pliku CSV: skrypt otwiera plik CSV, pomija nagłówki i czyta dane dotyczące surowców, ich procentowej zawartości w recepturze, a następnie oblicza masę surowca do odważenia na podstawie podanej objętości opakowania.
 Obsługa błędów: w skrypcie zaimplementowano obsługę błędów, takich jak nieznalezienie pliku czy nieprawidłowe dane wejściowe, co zapewnia większą stabilność działania.
 
-- import csv  
- importuje moduł csv, służący do czytania i zapisywania plików CSV.  
+- def calculate_ingredient_mass(file_path):  
+Definiuje nazwę funkcji calculate_ingredient_mass, która przyjmuje argument: file_path. File_path to ścieżka do pliku CSV zawierającego dane o składnikach.
+
+- product_name = input("Podaj nazwę produktu (pianka myjąca, krem nawilżający): ").lower().strip()  
+Prosi użytkownika o podanie nazwy produktu, konwertuje wprowadzony tekst na małe litery i usuwa białe znaki z obu stron tekstu. Wynik zapisuje w zmiennej product_name.
+
+- if product_name != "pianka myjąca":  
+    print("Brak wybranego produktu w bazie.")  
+    return  
+Sprawdza, czy wprowadzona nazwa produktu to "pianka myjąca". Jeśli nie, informuje użytkownika o braku produktu w bazie i kończy działanie funkcji.
+
+- try:
+    volume = float(input("Jaka jest objętość opakowania? "))  
+except ValueError:  
+    print("Podana wartość musi być liczbą. Spróbuj ponownie.")  
+    return  
+Prosi użytkownika o podanie objętości opakowania, próbuje przekonwertować wprowadzony tekst na liczbę zmiennoprzecinkową. Jeśli konwersja się nie powiedzie (np. użytkownik wprowadzi tekst zamiast liczby), informuje o błędzie i kończy działanie funkcji.
+
+- try:  
+    with open(file_path, 'r', encoding='utf-8') as file:  
+Próbuje otworzyć plik CSV o ścieżce file_path do odczytu ('r') z kodowaniem 'utf-8'. Używa kontekstu with, który zapewnia poprawne zamknięcie pliku po zakończeniu pracy.
+
+- next(file)  # Pomijanie nagłówków  
+Pomija pierwszy wiersz pliku (nagłówki), używając funkcji next().
+
+- for line in file:  
+    parts = line.strip().split(';')  # Użycie średnika jako separatora  
+Iteruje po każdym wierszu pliku, usuwa białe znaki z końców linii i dzieli tekst na części (kolumny) przy użyciu średnika jako separatora. Wynik zapisuje w zmiennej 'parts'.
+
+- if len(parts) < 4:  
+                print("Pomijam wiersz z niekompletnymi danymi.")  
+                continue  
+Sprawdza, czy wiersz zawiera co najmniej 4 elementy (kolumny). Jeśli nie, informuje o pominięciu wiersza z niekompletnymi danymi i kontynuuje pętlę.
+
+- raw_material, _, _, percentage_str = parts  
+Rozpakowuje listę 'parts' do zmiennych. Interesuje nas tylko pierwsza kolumna (nazwa surowca) i czwarta kolumna (procentowa zawartość surowca), dlatego używamy _ dla pozostałych kolumn, które nas nie interesują.
+
+- try:  
+                percentage_content = float(percentage_str)  
+                mass = (percentage_content * volume) / 100  
+                print(f"{raw_material}; masa do odważenia = {mass}g")  
+Próbuje przekonwertować procentową zawartość surowca na liczbę zmiennoprzecinkową, oblicza masę surowca do odważenia na podstawie objętości opakowania i wyświetla nazwę surowca oraz obliczoną masę.
+
+- except ValueError:  
+    print(f"Nie można przekonwertować danych na liczbę w linii: {line.strip()}")  
+Obsługa wyjątku ValueError: Ten blok except jest uruchamiany, gdy w trakcie próby konwersji procentowej zawartości surowca (lub innej wartości) na liczbę zmiennoprzecinkową (float(percentage_str)) wystąpi błąd, np. gdy wartość nie jest liczbą. W takim przypadku wyświetlany jest komunikat informujący o niemożności przekonwertowania danych na liczbę wraz z treścią problematycznego wiersza,
+
+- except FileNotFoundError:  
+    print("Nie znaleziono pliku. Upewnij się, że podana ścieżka jest poprawna.")  
+Obsługa wyjątku FileNotFoundError: Ten blok except jest uruchamiany, gdy plik określony w file_path nie zostanie znaleziony. Wyświetla informację o nieznalezieniu pliku i sugeruje sprawdzenie poprawności podanej ścieżki.
+
+- except Exception as e:  
+    print(f"Wystąpił błąd: {e}")  
+Obsługa innych wyjątków: Ten blok except jest "siatką bezpieczeństwa" dla wszelkich innych wyjątków, które mogą wystąpić, ale nie zostały obsłużone przez poprzednie bloki except. Zmienna e przechwytuje obiekt wyjątku, a komunikat wyświetla jego treść, co może pomóc w diagnozie problemu.
+
+- file_path = '/Users/administrator/Desktop/MentoringDareIT/recepturapianka.csv'  
+calculate_ingredient_mass(file_path)  
+Definicja ścieżki do pliku i wywołanie funkcji:  
+file_path to zmienna przechowująca ścieżkę do pliku CSV, który ma zostać przetworzony.  
+calculate_ingredient_mass(file_path) to wywołanie funkcji, której zadaniem jest przetworzenie pliku CSV zgodnie z wcześniej opisaną logiką. Funkcja ta przyjmuje jako argument ścieżkę do pliku, którą właśnie zdefiniowaliśmy.  
 
 
-- def oblicz_wyniki_z_pliku(csv_path):  
-definiuje nazwę funkcji, aby służyła konkretnemu celowi w skrypcie: oblicz_wyniki_z_pliku, przyjmuje ścieżkę do pliku CSV.  
 
 
-- with open(csv_path, newline='') as csvfile:  
-otwiera plik CSV, używając ścieżki przekazanej do funkcji. newline='' zapewnia odpowiednie traktowanie końców linii.  
-
-
-- reader = csv.reader(csvfile, delimiter=';'):  
-tworzy obiekt reader do iteracji po wierszach pliku, z średnikiem jako separatorem.  
-
-
-- next(reader)  # Pomiń nagłówki  
-używa next na reader, aby pominąć pierwszy wiersz, czyli nagłówki.
-
-
-- suma_kolumny_f = 0  
-wartosc_g_w_wierszu_2 = 0  
-inicjalizuje zmienne do przechowywania sumy wartości z kolumny F i wartości z kolumny G w drugim wierszu.
-
-
-- for i, row in enumerate(reader):  
-rozpoczyna pętlę przez wiersze pliku, z numeracją wierszy dzięki enumerate.
-
-
-- if i == 0:  # Zapisz wartość z kolumny G z drugiego wiersza  
-wartosc_g_w_wierszu_2 = float(row[6].replace(',', '.'))  
-jeśli jest to pierwszy wiersz danych, zapisuje wartość z kolumny G, konwertując na format zmiennoprzecinkowy.
-
-
-- suma_kolumny_f += float(row[5].replace(',', '.'))  
-dodaje do sumy wartości z kolumny F, konwertując na format zmiennoprzecinkowy.
-
-
-- wartosc_h_w_wierszu_2 = suma_kolumny_f  
-wartosc_i_w_wierszu_2 = wartosc_h_w_wierszu_2 + wartosc_g_w_wierszu_2  
-oblicza wartości dla kolumn H i I na podstawie wcześniejszych obliczeń.
-
-
-- return wartosc_h_w_wierszu_2, wartosc_i_w_wierszu_2  
-zwraca obliczone wartości.
