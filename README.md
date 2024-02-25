@@ -1,7 +1,7 @@
 # Description
 
 
-- import csv
+- import csv 
  importuje moduł csv, służący do czytania i zapisywania plików CSV.  
 
 
