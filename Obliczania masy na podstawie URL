@@ -1,0 +1,41 @@
+import requests
+import csv
+
+def calculate_ingredient_mass(file_url):
+    product_name = input("Podaj nazwę produktu (pianka myjąca, krem nawilżający): ").lower().strip()
+
+    if product_name != "pianka myjąca":
+        print("Brak wybranego produktu w bazie.")
+        return
+
+    try:
+        volume = float(input("Jaka jest objętość opakowania w mililitrach? "))
+    except ValueError:
+        print("Podana wartość musi być liczbą. Spróbuj ponownie.")
+        return
+
+    try:
+        response = requests.get(file_url)
+        response.raise_for_status()  # Sprawdza, czy zapytanie zostało pomyślnie wykonane
+
+        lines = response.text.splitlines()
+        reader = csv.reader(lines, delimiter=';')
+
+        next(reader)  # Pomijanie nagłówków
+        for parts in reader:
+            if len(parts) < 4:
+                print("Pomijam wiersz z niekompletnymi danymi.")
+                continue
+            raw_material, _, _, percentage_str = parts
+            try:
+                percentage_content = float(percentage_str)
+                mass = (percentage_content * volume) / 100
+                print(f"{raw_material}; masa do odważenia = {mass}g")
+            except ValueError:
+                print(f"Nie można przekonwertować danych na liczbę w linii: {','.join(parts)}")
+    except requests.RequestException as e:
+        print(f"Wystąpił błąd podczas pobierania pliku: {e}")
+
+# Ścieżka do pliku CSV jako URL
+file_url = 'https://raw.githubusercontent.com/claudiakrak/Receptury/main/recepturapianka.csv'
+calculate_ingredient_mass(file_url)
