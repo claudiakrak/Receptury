@@ -1,0 +1,39 @@
+import csv
+
+def oblicz_wyniki_z_pliku(csv_path):
+    with open(csv_path, newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=';')
+        next(reader)  # Pomiń nagłówki
+
+        suma_kolumny_f = 0
+        wartosc_g_w_wierszu_2 = 0
+
+        for i, row in enumerate(reader):
+            if i == 0:  # Zapisz wartość z kolumny G z drugiego wiersza
+                wartosc_g_w_wierszu_2 = float(row[6].replace(',', '.'))
+            suma_kolumny_f += float(row[5].replace(',', '.'))
+
+        # Obliczenia dla kolumn H i I
+        wartosc_h_w_wierszu_2 = suma_kolumny_f
+        wartosc_i_w_wierszu_2 = wartosc_h_w_wierszu_2 + wartosc_g_w_wierszu_2
+
+        return wartosc_h_w_wierszu_2, wartosc_i_w_wierszu_2
+
+# Ścieżka do twojego pliku CSV
+csv_path = '/Users/administrator/Desktop/MentoringDareIT/produkcja.csv'
+
+# Oblicz wyniki
+wynik_h, wynik_i = oblicz_wyniki_z_pliku(csv_path)
+
+# Interakcja z użytkownikiem
+while True:
+    pytanie = input("Lista pytan: jaki jest koszt wyprodukowania kosmetyku? jaki jest koszt całkowity wraz z opakowaniem? Zadaj pytanie lub wpisz 'koniec', aby zakończyć): ")
+    if pytanie.lower() == "jaki jest koszt wyprodukowania kosmetyku?":
+        print(f"Koszt wyprodukowania kosmetyku: {wynik_h}")
+    elif pytanie.lower() == "jaki jest koszt całkowity wraz z opakowaniem?":
+        print(f"Koszt całkowity wraz z opakowaniem: {wynik_i}")
+    elif pytanie.lower() == 'koniec':
+        print("Zakończenie programu.")
+        break
+    else:
+        print("Nie rozpoznano pytania. Mogę odpowiedzieć na pytania: jaki jest koszt wyprodukowania kosmetyku? oraz jaki jest koszt całkowity wraz z opakowaniem?")
