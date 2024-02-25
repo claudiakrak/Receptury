@@ -20,7 +20,7 @@ Prosi użytkownika o podanie nazwy produktu, konwertuje wprowadzony tekst na ma�
 Sprawdza, czy wprowadzona nazwa produktu to "pianka myjąca". Jeśli nie, informuje użytkownika o braku produktu w bazie i kończy działanie funkcji.
 
 - try:
-    volume = float(input("Jaka jest objętość opakowania? "))  
+    volume = float(input("Jaka jest objętość opakowania w mililitrach? "))  
 except ValueError:  
     print("Podana wartość musi być liczbą. Spróbuj ponownie.")  
     return  
