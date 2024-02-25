@@ -2,17 +2,17 @@
 
 
 import csv
-- importuje moduł csv, służący do czytania i zapisywania plików CSV.
-+
+- importuje moduł csv, służący do czytania i zapisywania plików CSV.  
+
 def oblicz_wyniki_z_pliku(csv_path):
-- definiuje nazwę funkcji, aby służyła konkretnemu celowi w skrypcie: oblicz_wyniki_z_pliku, przyjmuje ścieżkę do pliku CSV.
-+
+- definiuje nazwę funkcji, aby służyła konkretnemu celowi w skrypcie: oblicz_wyniki_z_pliku, przyjmuje ścieżkę do pliku CSV.  
+
 with open(csv_path, newline='') as csvfile:
-- otwiera plik CSV, używając ścieżki przekazanej do funkcji. newline='' zapewnia odpowiednie traktowanie końców linii.
-+
+- otwiera plik CSV, używając ścieżki przekazanej do funkcji. newline='' zapewnia odpowiednie traktowanie końców linii.  
+
 reader = csv.reader(csvfile, delimiter=';'):
-- tworzy obiekt reader do iteracji po wierszach pliku, z średnikiem jako separatorem.
-+
+- tworzy obiekt reader do iteracji po wierszach pliku, z średnikiem jako separatorem.  
+
 next(reader)  # Pomiń nagłówki
 - używa next na reader, aby pominąć pierwszy wiersz, czyli nagłówki.
 +
