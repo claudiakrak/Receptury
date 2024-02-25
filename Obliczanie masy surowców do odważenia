@@ -9,7 +9,7 @@ def calculate_ingredient_mass(file_path):
         return
 # Prośba o podanie objętości opakowania
     try:
-        volume = float(input("Jaka jest objętość opakowania? "))
+        volume = float(input("Jaka jest objętość opakowania w mililitrach? "))
     except ValueError:
         print("Podana wartość musi być liczbą. Spróbuj ponownie.")
         return
