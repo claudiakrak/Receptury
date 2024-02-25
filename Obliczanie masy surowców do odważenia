@@ -13,7 +13,7 @@ def calculate_ingredient_mass(file_path):
     except ValueError:
         print("Podana wartość musi być liczbą. Spróbuj ponownie.")
         return
-# Otwarcie i przetworzenie pliku CSV
+# Otworzenie i przetworzenie pliku CSV
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             next(file)  # Pomijanie nagłówków
