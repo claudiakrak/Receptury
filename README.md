@@ -1,12 +1,12 @@
 # Description
 
 
--import csv
+  import csv
  importuje moduł csv, służący do czytania i zapisywania plików CSV.  
 
 
 def oblicz_wyniki_z_pliku(csv_path):
-- definiuje nazwę funkcji, aby służyła konkretnemu celowi w skrypcie: oblicz_wyniki_z_pliku, przyjmuje ścieżkę do pliku CSV.  
+definiuje nazwę funkcji, aby służyła konkretnemu celowi w skrypcie: oblicz_wyniki_z_pliku, przyjmuje ścieżkę do pliku CSV.  
 
 
 with open(csv_path, newline='') as csvfile:
