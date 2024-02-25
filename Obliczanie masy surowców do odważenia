@@ -35,5 +35,5 @@ def calculate_ingredient_mass(file_path):
         print(f"Wystąpił błąd: {e}")
 
 # Ścieżka do pliku CSV
-file_path = '/Users/administrator/Desktop/MentoringDareIT/recepturapianka.csv'
+file_path = 'sciezkadoplikucsv'
 calculate_ingredient_mass(file_path)
