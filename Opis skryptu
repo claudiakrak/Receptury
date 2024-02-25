@@ -63,7 +63,7 @@ Obsługa wyjątku FileNotFoundError: Ten blok except jest uruchamiany, gdy plik 
     print(f"Wystąpił błąd: {e}")  
 Obsługa innych wyjątków: Ten blok except jest "siatką bezpieczeństwa" dla wszelkich innych wyjątków, które mogą wystąpić, ale nie zostały obsłużone przez poprzednie bloki except. Zmienna e przechwytuje obiekt wyjątku, a komunikat wyświetla jego treść, co może pomóc w diagnozie problemu.
 
-- file_path = '/Users/administrator/Desktop/MentoringDareIT/recepturapianka.csv'  
+- file_path = 'sciezkadoplikucsv'  
 calculate_ingredient_mass(file_path)  
 Definicja ścieżki do pliku i wywołanie funkcji:  
 file_path to zmienna przechowująca ścieżkę do pliku CSV, który ma zostać przetworzony.  
