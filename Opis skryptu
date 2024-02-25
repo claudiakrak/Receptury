@@ -1,7 +1,12 @@
 # Opis skryptu
 
 Ten projekt zawiera skrypt Python, który pomaga obliczyć masę surowców potrzebną do wytworzenia określonej objętości produktu kosmetycznego tj. pianki myjącej. Skrypt czyta dane z pliku CSV, w którym zawarte są informacje o nazwie surowca, jego dostępnej na rynku objętości, cenie oraz procentowej zawartości w recepturze.
+Skrypt nie wymaga instalacji dodatkowych bibliotek, używa tylko standardowych modułów Pythona.
 
+Prośba o podanie nazwy produktu: skrypt zaczyna od zapytania użytkownika o nazwę produktu, aby ustalić, czy dana receptura istnieje w bazie.
+Prośba o podanie objętości opakowania: skrypt prosi o podanie objętości opakowania w mililitrach, co jest kluczowe do obliczenia masy surowców.
+Otworzenie i przetworzenie pliku CSV: skrypt otwiera plik CSV, pomija nagłówki i czyta dane dotyczące surowców, ich procentowej zawartości w recepturze, a następnie oblicza masę surowca do odważenia na podstawie podanej objętości opakowania.
+Obsługa błędów: w skrypcie zaimplementowano obsługę błędów, takich jak nieznalezienie pliku czy nieprawidłowe dane wejściowe, co zapewnia większą stabilność działania.
 
 - import csv  
  importuje moduł csv, służący do czytania i zapisywania plików CSV.  
